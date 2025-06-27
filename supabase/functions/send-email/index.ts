@@ -93,7 +93,7 @@ serve(async (req) => {
     // For this example, I'll use a simple fetch to a hypothetical email service
     // You'll need to replace this with your actual email service
     
-    const emailResponse = await fetch('https://api.resend.com/emails', {
+    const emailResponse = await fetch('https://hxnlcrljjlzlfgbbmgar.supabase.co', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
