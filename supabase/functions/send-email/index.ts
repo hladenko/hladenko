@@ -96,7 +96,7 @@ serve(async (req) => {
     const emailResponse = await fetch('https://hxnlcrljjlzlfgbbmgar.supabase.co', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4bmxjcmxqamx6bGZnYmJtZ2FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwNDQyOTksImV4cCI6MjA2NjYyMDI5OX0.yS31AF7WaJ7b3O0qCszK3QtZs-G0vElXyNjLlkxOznE')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
