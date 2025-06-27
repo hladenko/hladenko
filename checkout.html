@@ -313,8 +313,30 @@
             }
         });
 
+        // Send email function
+        async function sendOrderEmail(orderData) {
+            try {
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'order',
+                        data: orderData
+                    })
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to send email');
+                }
+            } catch (error) {
+                console.error('Error sending email:', error);
+            }
+        }
+
         // Form submission
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
@@ -330,6 +352,27 @@
             // Generate order number
             const orderNumber = `HL-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(3, '0')}`;
             document.getElementById('order-number').textContent = `#${orderNumber}`;
+            
+            // Prepare order data for email
+            const orderData = {
+                orderNumber: orderNumber,
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                address: formData.get('address'),
+                city: formData.get('city'),
+                postalCode: formData.get('postalCode'),
+                paymentMethod: paymentMethod,
+                cashAmount: paymentMethod === 'cash' ? cashAmount : null,
+                change: paymentMethod === 'cash' && cashAmount > orderTotal ? (cashAmount - orderTotal).toFixed(2) : null,
+                notes: formData.get('notes'),
+                items: orderItems,
+                total: orderTotal.toFixed(2)
+            };
+
+            // Send email notification
+            await sendOrderEmail(orderData);
             
             // Clear cart
             localStorage.removeItem('hladenko_cart');
