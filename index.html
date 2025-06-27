@@ -169,7 +169,7 @@
                         <p class="text-gray-600 mb-4">Mini prenosiva klima sa 3 moda vodenog rashladjivaca , 3 brzine ugradjenog ventilatora , 600ml vode kapaciteta , ugradjenim alarmom , pregradom na ventilatoru za mirisno hladjenje po zelji  i dolazi sa USB C punjacem i kablom bez adaptera BLUE EDITION.</p>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-bold text-gray-800">$14.99</span>
-                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="1" data-name="Arctic Breeze Pro" data-price="249.99">
+                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="1" data-name="Mini klima blue edition" data-price="14.99">
                                 Add to Cart
                             </button>
                         </div>
@@ -197,7 +197,7 @@
                         <p class="text-gray-600 mb-4">Mini prenosiva klima sa 3 moda vodenog rashladjivaca , 3 brzine ugradjenog ventilatora , 600ml vode kapaciteta , ugradjenim alarmom , pregradom na ventilatoru za mirisno hladjenje po zelji  i dolazi sa USB C punjacem i kablom bez adaptera BLACK EDITION.</p>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-bold text-gray-800">$14.99</span>
-                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="2" data-name="Polar Mini Cool" data-price="179.99">
+                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="2" data-name="Mini klima black edition" data-price="14.99">
                                 Add to Cart
                             </button>
                         </div>
@@ -249,10 +249,10 @@
                             </div>
                             <span class="text-gray-600 text-sm ml-2">5.0 (42 reviews)</span>
                         </div>
-                        <p class="text-gray-600 mb-4">Mini prenosiva klima sa 3 moda vodenog rashladjivaca , 3 brzine ugradjenog ventilatora , 600ml vode kapaciteta , ugradjenim alarmom , pregradom na ventilatoru za mirisno hladjenje po zelji  i dolazi sa USB C punjacem i kablom bez adaptera WHITE EDITION.</p>
+                        <p class="text-gray-600 mb-4">Mini prenosiva klima sa 3 moda vodenog rashladjivaca , 3 brzine ugradjenog ventilatora , 600ml vode kapaciteta , ugradjenim alarmom , pregradom na ventilatoru za mirisno hladjenje po zelji  i dolazi sa USB C punjacem i kablom bez adaptera GREEN EDITION.</p>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-bold text-gray-800">$14.99</span>
-                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="4" data-name="Glacial Office Pro" data-price="199.99">
+                            <button class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300" data-id="4" data-name="Mini klima green edition" data-price="14.99">
                                 Add to Cart
                             </button>
                         </div>
@@ -490,7 +490,7 @@
                     </div>
                     <div class="flex justify-between mb-4">
                         <span class="font-medium">Shipping:</span>
-                        <span class="font-medium">Calculated at checkout</span>
+                        <span class="font-medium text-green-600">FREE</span>
                     </div>
                     <div class="flex justify-between text-lg font-bold">
                         <span>Total:</span>
@@ -547,6 +547,20 @@
         // Shopping Cart Functionality
         let cart = [];
         
+        // Load cart from localStorage on page load
+        function loadCart() {
+            const savedCart = localStorage.getItem('hladenko_cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCart();
+            }
+        }
+        
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('hladenko_cart', JSON.stringify(cart));
+        }
+        
         // Cart Modal Toggle
         const cartBtn = document.getElementById('cart-btn');
         const cartModal = document.getElementById('cart-modal');
@@ -600,6 +614,7 @@
                     });
                 }
                 
+                saveCart();
                 updateCart();
                 
                 // Show notification
@@ -671,6 +686,7 @@
                             cart = cart.filter(item => item.id !== id);
                         }
                         
+                        saveCart();
                         updateCart();
                     });
                 });
@@ -680,6 +696,7 @@
                         const id = button.getAttribute('data-id');
                         const item = cart.find(item => item.id === id);
                         item.quantity += 1;
+                        saveCart();
                         updateCart();
                     });
                 });
@@ -688,6 +705,7 @@
                     button.addEventListener('click', () => {
                         const id = button.getAttribute('data-id');
                         cart = cart.filter(item => item.id !== id);
+                        saveCart();
                         updateCart();
                     });
                 });
@@ -699,21 +717,20 @@
             cartTotal.textContent = `$${subtotal.toFixed(2)}`;
         }
         
-        // Checkout button
+        // Checkout button - redirect to checkout page
         const checkoutBtn = document.getElementById('checkout-btn');
         checkoutBtn.addEventListener('click', () => {
             if (cart.length > 0) {
-                alert('Checkout functionality would be implemented here!');
-                cart = [];
-                updateCart();
-                cartModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-
+                // Save cart to localStorage and redirect to checkout
+                saveCart();
+                window.location.href = 'checkout.html';
+            } else {
+                alert('Your cart is empty!');
             }
         });
         
-        // Initialize cart
-        updateCart();
+        // Initialize cart on page load
+        loadCart();
     </script>
 </body>
 </html>

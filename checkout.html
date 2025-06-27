@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Hladenko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .success-animation {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-snowflake text-blue-500 text-2xl"></i>
+                <a href="index.html" class="text-xl font-bold text-gray-800">Hladenko</a>
+            </div>
+            <a href="index.html" class="text-blue-600 hover:text-blue-700 font-medium">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Shop
+            </a>
+        </div>
+    </header>
+
+    <!-- Checkout Form -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center animate-fade-in">Checkout</h1>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Order Summary -->
+                <div class="bg-white rounded-lg shadow-md p-6 animate-slide-in">
+                    <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                    <div id="order-items" class="space-y-4 mb-6">
+                        <!-- Order items will be populated here -->
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium">Subtotal:</span>
+                            <span id="order-subtotal" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium">Delivery:</span>
+                            <span class="font-medium text-green-600">FREE</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>Total:</span>
+                            <span id="order-total" class="text-blue-600">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Form -->
+                <div class="bg-white rounded-lg shadow-md p-6 animate-fade-in">
+                    <h2 class="text-xl font-semibold mb-6">Delivery Information</h2>
+                    
+                    <form id="checkout-form" class="space-y-4">
+                        <!-- Personal Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="firstName" class="block text-gray-700 font-medium mb-2">Ime *</label>
+                                <input type="text" id="firstName" name="firstName" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-gray-700 font-medium mb-2">Prezime *</label>
+                                <input type="text" id="lastName" name="lastName" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefon *</label>
+                            <input type="tel" id="phone" name="phone" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <!-- Delivery Address -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-semibold mb-4">Adresa za dostavu</h3>
+                            
+                            <div>
+                                <label for="address" class="block text-gray-700 font-medium mb-2">Ulica i broj *</label>
+                                <input type="text" id="address" name="address" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <label for="city" class="block text-gray-700 font-medium mb-2">Grad *</label>
+                                    <input type="text" id="city" name="city" required 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="postalCode" class="block text-gray-700 font-medium mb-2">Postanski broj *</label>
+                                    <input type="text" id="postalCode" name="postalCode" required 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-semibold mb-4">Nacin placanja</h3>
+                            
+                            <div class="space-y-3">
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="cash" checked 
+                                           class="text-blue-600 focus:ring-blue-500">
+                                    <div class="ml-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-money-bill-wave text-green-500 mr-2"></i>
+                                            <span class="font-medium">Placanje pouzecem (gotovina)</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1">Platite kuriru prilikom dostave</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="card" 
+                                           class="text-blue-600 focus:ring-blue-500">
+                                    <div class="ml-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-credit-card text-blue-500 mr-2"></i>
+                                            <span class="font-medium">Placanje karticom kuriru</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1">Platite karticom prilikom dostave</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Cash Amount (only shown for cash payment) -->
+                        <div id="cash-amount-section" class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-semibold mb-4">Iznos gotovine</h3>
+                            <div>
+                                <label for="cashAmount" class="block text-gray-700 font-medium mb-2">
+                                    Koliko gotovine nosite? (za kusur) *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500">$</span>
+                                    <input type="number" id="cashAmount" name="cashAmount" min="0" step="0.01" required 
+                                           class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Unesite iznos veci od ukupne cene za kusur</p>
+                                <div id="change-amount" class="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg hidden">
+                                    <p class="text-green-700 font-medium">Kusur: <span id="change-value">$0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <label for="notes" class="block text-gray-700 font-medium mb-2">Dodatne napomene</label>
+                            <textarea id="notes" name="notes" rows="3" 
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                      placeholder="Dodatne instrukcije za dostavu..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-6">
+                            <button type="submit" 
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-lg font-bold text-lg transition duration-300 shadow-lg">
+                                <i class="fas fa-check mr-2"></i>Potvrdite narudzbinu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 success-animation">
+            <div class="p-8 text-center">
+                <div class="mb-6">
+                    <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-green-500 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Hvala vam!</h3>
+                <p class="text-gray-600 mb-6">Vasa narudzbina je uspesno poslata. Kontaktiraćemo vas uskoro za potvrdu dostave.</p>
+                
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-600 mb-2">Broj narudzbine:</p>
+                    <p id="order-number" class="font-bold text-lg text-blue-600">#HL-2025-001</p>
+                </div>
+                
+                <div class="space-y-3">
+                    <button onclick="window.location.href='index.html'" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                        Nazad na pocetnu
+                    </button>
+                    <button id="close-success" 
+                            class="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-lg font-medium transition duration-300">
+                        Zatvori
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get cart data from localStorage or URL parameters
+        let orderItems = [];
+        let orderTotal = 0;
+
+        // Load order data
+        function loadOrderData() {
+            const cartData = localStorage.getItem('hladenko_cart');
+            if (cartData) {
+                orderItems = JSON.parse(cartData);
+                updateOrderSummary();
+            } else {
+                // Redirect back if no cart data
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            const orderItemsContainer = document.getElementById('order-items');
+            const orderSubtotal = document.getElementById('order-subtotal');
+            const orderTotalElement = document.getElementById('order-total');
+
+            orderItemsContainer.innerHTML = '';
+            let subtotal = 0;
+
+            orderItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex justify-between items-center border-b border-gray-100 pb-3';
+                itemElement.innerHTML = `
+                    <div>
+                        <h4 class="font-medium">${item.name}</h4>
+                        <p class="text-gray-600 text-sm">Količina: ${item.quantity}</p>
+                    </div>
+                    <span class="font-medium">$${itemTotal.toFixed(2)}</span>
+                `;
+                orderItemsContainer.appendChild(itemElement);
+            });
+
+            orderTotal = subtotal;
+            orderSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            orderTotalElement.textContent = `$${subtotal.toFixed(2)}`;
+
+            // Update cash amount minimum
+            const cashAmountInput = document.getElementById('cashAmount');
+            cashAmountInput.min = subtotal.toFixed(2);
+            cashAmountInput.placeholder = `Minimum: $${subtotal.toFixed(2)}`;
+        }
+
+        // Payment method change handler
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const cashSection = document.getElementById('cash-amount-section');
+                const cashAmountInput = document.getElementById('cashAmount');
+                
+                if (this.value === 'cash') {
+                    cashSection.style.display = 'block';
+                    cashAmountInput.required = true;
+                } else {
+                    cashSection.style.display = 'none';
+                    cashAmountInput.required = false;
+                }
+            });
+        });
+
+        // Cash amount change handler
+        document.getElementById('cashAmount').addEventListener('input', function() {
+            const cashAmount = parseFloat(this.value) || 0;
+            const changeSection = document.getElementById('change-amount');
+            const changeValue = document.getElementById('change-value');
+            
+            if (cashAmount > orderTotal) {
+                const change = cashAmount - orderTotal;
+                changeValue.textContent = `$${change.toFixed(2)}`;
+                changeSection.classList.remove('hidden');
+            } else {
+                changeSection.classList.add('hidden');
+            }
+        });
+
+        // Form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const paymentMethod = formData.get('paymentMethod');
+            const cashAmount = parseFloat(formData.get('cashAmount')) || 0;
+            
+            // Validate cash amount if cash payment is selected
+            if (paymentMethod === 'cash' && cashAmount < orderTotal) {
+                alert('Iznos gotovine mora biti veći od ukupne cene narudžbine.');
+                return;
+            }
+            
+            // Generate order number
+            const orderNumber = `HL-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(3, '0')}`;
+            document.getElementById('order-number').textContent = `#${orderNumber}`;
+            
+            // Clear cart
+            localStorage.removeItem('hladenko_cart');
+            
+            // Show success modal
+            document.getElementById('success-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close success modal
+        document.getElementById('close-success').addEventListener('click', function() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Initialize page
+        loadOrderData();
+    </script>
+</body>
+</html>
